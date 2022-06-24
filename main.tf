@@ -1,23 +1,8 @@
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~> 3.10.0"
-    }
-  }
-}
-
-provider "azurerm" {
-  features {}
-
-  subscription_id = "53191582-ab8f-4451-96c8-995f7d00123b"
-}
-
 resource "azurerm_resource_group" "rg1" {
   name     = "jclishe-rg-01-tf"
   location = "East US"
   tags = {
-    owner = "jason-clishe"
+    owner = var.tag-owner
   }
 }
 
@@ -63,7 +48,7 @@ resource "azurerm_network_security_group" "nsg1" {
   }
 
   tags = {
-    "owner" = "jason-clishe"
+    "owner" = var.tag-owner
   }
 }
 
@@ -74,7 +59,7 @@ resource "azurerm_virtual_network" "vnet1" {
   address_space       = ["10.77.0.0/16"]
 
   tags = {
-    "owner" = "jason-clishe"
+    "owner" = var.tag-owner
   }
 }
 
@@ -99,7 +84,7 @@ resource "azurerm_public_ip" "publicip1" {
   allocation_method   = "Dynamic"
 
   tags = {
-    "owner" = "jason-clishe"
+    "owner" = var.tag-owner
   }
 }
 
@@ -116,7 +101,7 @@ resource "azurerm_network_interface" "nic1" {
   }
 
   tags = {
-    "owner" = "jason-clishe"
+    "owner" = var.tag-owner
   }
 }
 
@@ -128,7 +113,7 @@ resource "azurerm_linux_virtual_machine" "linux_vm1" {
   admin_username                  = "jclishe"
   admin_password                  = "EmhT8ZUxGbpBob.DygupaW37"
   disable_password_authentication = false
-  network_interface_ids           = [azurerm_network_interface.nic1.id,]
+  network_interface_ids           = [azurerm_network_interface.nic1.id, ]
 
   os_disk {
     caching              = "ReadWrite"
@@ -143,6 +128,6 @@ resource "azurerm_linux_virtual_machine" "linux_vm1" {
   }
 
   tags = {
-    "owner" = "jason-clishe"
+    "owner" = var.tag-owner
   }
 }
